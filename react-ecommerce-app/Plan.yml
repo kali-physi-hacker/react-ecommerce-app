@@ -1,0 +1,23 @@
+# Plan for minimal implementation of the ecommerce app
+- backend:
+    - models:
+        - User
+        - Product
+    - endpoints:
+        - /api/auth/signup           (POST)
+        - /api/auth/login            (POST)
+        - /api/auth/get-user
+        - /api/products/        (GET)
+        - /api/product/:id      (PUT, DELETE)
+
+- frontend:
+    - components:
+        - Header
+        - Footer
+    - Pages:
+        - Login
+        - Signup
+        - Landing Page
+        - Products
+        - Add Product Page
+        - Cart Page
