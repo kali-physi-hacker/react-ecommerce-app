@@ -33,11 +33,18 @@ const LoginForm = () => {
             setError("");
             axios.post("http://localhost:5000/api/auth/login/", user)
                 .then(response => {
-                    account_context.dispatchAccount({type: "login", user: response.data})
+                    main_app_context.dispatchAuthState({
+                        type: "SET_USER",
+                        firstName: response.data.firstName,
+                        lastName: response.data.lastName,
+                        email: response.data.email
+                    })
                     localStorage.setItem("auth_token", response.data.token);
-                    account_context.navigate('/')
-                    console.log(account_context)
+
+                    main_app_context.dispatchMainAppState({type: "SET_AUTH", isAuthenticated: true})
                     main_app_context.dispatchMainAppState({type: "SET_LOADING", isLoading: false})
+
+                    main_app_context.navigate('/')
                 })
                 .catch(error => {
                     if (error.response) {

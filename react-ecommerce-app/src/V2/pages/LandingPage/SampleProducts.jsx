@@ -14,8 +14,8 @@ const SampleProducts = props => {
                 {/* Products */}
                 <div className="row">
                     {props.products.map(product=> (
-                        <div className={"col-xl-3 col-lg-4 col-sm-6"}>
-                            <ProductCard key={product.id} {...product} />
+                        <div key={product.id} className={"col-xl-3 col-lg-4 col-sm-6"}>
+                            <ProductCard {...product} />
                         </div>
                     ))}
                 </div>

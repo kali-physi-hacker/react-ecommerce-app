@@ -6,7 +6,7 @@ import './App.css';
 import './assets/libs/animate.css/animate.min.css';
 import './assets/libs/swiper/dist/css/swiper.min.css';
 import './assets/css/purpose.css';
-import {Route} from "react-router-dom";
+import {Route, useHistory} from "react-router-dom";
 
 import LandingPage from "./V2/pages/LandingPage/LandingPage"
 import Login from './V2/pages/Auth/Login';
@@ -25,11 +25,15 @@ const App = () => {
     const [mainAppState, dispatchMainAppState] = useReducer(mainAppReducer, initialAppState);
     const [authState, dispatchAuthState] = useReducer(accountReducer, initialAccounts);
 
+    const history = useHistory() ;
+    const navigate = route => {
+        history.push(route);
+    }
+
 
     useEffect(() => {
         if (getAuthToken() !== null) {
             const token = `Token ${getAuthToken()}`;
-            console.log("Token:", token)
             axios.post('http://localhost:5000/api/auth/get-user', {}, {
                 headers: {
                     Authorization: token
@@ -37,11 +41,12 @@ const App = () => {
             })
                 .then(response => {
                     dispatchAuthState({
-                        type: "GET_USER",
+                        type: "SET_USER",
                         firstName: response.data.firstName,
                         lastName: response.data.lastName,
                         email: response.data.email
                     })
+                    dispatchMainAppState({type: "SET_AUTH", isAuthenticated: true})
                 })
                 .catch(error=> console.log(error))
         }
@@ -53,7 +58,8 @@ const App = () => {
                 appState: mainAppState,
                 dispatchMainAppState: dispatchMainAppState,
                 authState: authState,
-                dispatchAuthState: dispatchAuthState
+                dispatchAuthState: dispatchAuthState,
+                navigate: navigate
             }}>
                 <Route exact path={"/"} render={() => <LandingPage/>}/>
                 <Route path={"/login"} render={() => <Login/>}/>

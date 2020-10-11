@@ -4,14 +4,6 @@ import React from 'react';
 export const accountContext = React.createContext();
 
 export const initialAccounts = {
-    // user: [
-    //     {
-    //         first_name: "Kali",
-    //         username: 'kali@email.com',
-    //         password: 'pass'
-    //     }
-    // ],
-    // currentUser: window.sessionStorage.user ? JSON.parse(window.sessionStorage.user) : null
     firstName: "",
     lastName: "",
     email: ""

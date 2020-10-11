@@ -7,7 +7,17 @@ const Topbar = () => {
 
     const main_app_state = useContext(mainAppContext);
 
-    console.log(main_app_state)
+    const logout = () => {
+        localStorage.clear();
+        main_app_state.dispatchAuthState({
+            type: "SET_USER",
+            firstName: "",
+            lastName: "",
+            email: ""
+        })
+        main_app_state.dispatchMainAppState({type: "SET_AUTH", isAuthenticated: false})
+        main_app_state.navigate('/')
+    }
 
     return (
         <div id="navbar-top-main" className="navbar-top  navbar-dark bg-dark border-bottom">
@@ -19,13 +29,13 @@ const Topbar = () => {
                     <div className={"ml-auto"}>
                         <ul className="nav">
                             <li className="nav-item dropdown ml-lg-2">
-                                <a className="nav-link px-0" href="#" role="button" data-toggle="dropdown"
+                                <Link to={'#'} className="nav-link px-0" href="#" role="button" data-toggle="dropdown"
                                    aria-haspopup="true" aria-expanded="false" data-offset="0,10">
                                     <img alt="Image placeholder"
                                          src="https://preview.webpixels.io/purpose-website-ui-kit/assets/img/icons/flags/gh.svg" />
                                         <span className="d-none d-lg-inline-block">United States</span>
                                         <span className="d-lg-none">EN</span>
-                                </a>
+                                </Link>
                                 <div className="dropdown-menu dropdown-menu-sm">
                                     <a href="#" className="dropdown-item"><img alt="Image placeholder"
                                                                                src="https://preview.webpixels.io/purpose-website-ui-kit/assets/img/icons/flags/es.svg" />Spanish</a>
@@ -40,26 +50,24 @@ const Topbar = () => {
                     <div className="ml-auto">
                         <ul className="nav">
                             <li className="nav-item">
-                                <Link className="nav-link">Support</Link>
+                                <Link to={'#'} className="nav-link">Support</Link>
                             </li>
                             <li className="nav-item">
                                 <a href="#" className="nav-link" data-action="omnisearch-open"
                                    data-target="#omnisearch"><i className="far fa-search"></i></a>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link"><i
+                                <Link to={'#'} className="nav-link"><i
                                     className="far fa-shopping-cart"></i></Link>
                             </li>
                             {
-                                main_app_state.authState.currentUser === null ? (
+                                !main_app_state.appState.isAuthenticated ? (
                                     <li className={"nav-item"}>
-                                        <Link className={"nav-link pr-0"} to={'/login'}>
-                                            <i className="far fa-user-circle"></i>
-                                        </Link>
+                                        <Link to={'/login'} className="nav-link btn-sm btn btn-primary pl-4 pr-4">Login <i className="ml-1 far fa-key"></i></Link>
                                     </li>
                                 ) : (
                                 <li className="nav-item dropdown">
-                                    <Link className="nav-link pr-0" href="#" data-toggle="dropdown" aria-haspopup="true"
+                                    <Link className="nav-link pr-0" to="#" data-toggle="dropdown" aria-haspopup="true"
                                           aria-expanded="false">
                                         <i className="far fa-user-circle"></i>
                                     </Link>
@@ -76,7 +84,7 @@ const Topbar = () => {
                                             <i className="far fa-cog"></i>Settings
                                         </a>
                                         <div className="dropdown-divider" role="presentation"></div>
-                                        <a className="dropdown-item" href="#">
+                                        <a onClick={logout} className="dropdown-item" href="#">
                                             <i className="far fa-sign-out-alt"></i>Sign out
                                         </a>
                                     </div>
